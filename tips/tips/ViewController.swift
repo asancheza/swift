@@ -8,6 +8,17 @@
 
 import UIKit
 
+extension UIView {
+    func fadeTransition(duration:CFTimeInterval) {
+        let animation:CATransition = CATransition()
+        animation.timingFunction = CAMediaTimingFunction(name:
+            kCAMediaTimingFunctionEaseInEaseOut)
+        animation.type = kCATransitionFade
+        animation.duration = duration
+        self.layer.addAnimation(animation, forKey: kCATransitionFade)
+    }
+}
+
 class ViewController: UIViewController {
     @IBOutlet weak var billField: UITextField!
     @IBOutlet weak var tipLabel: UILabel!
@@ -16,6 +27,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        //self.view.backgroundColor = colorWithHexString("#0B486B")
         tipLabel.text = "$0.00"
         totalLabel.text = "$0.00"
     }
