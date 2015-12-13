@@ -24,19 +24,21 @@ class ViewController: UIViewController {
     @IBOutlet weak var tipLabel: UILabel!
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var tipControl: UISegmentedControl!
+    
+    let userDefaults = NSUserDefaults.standardUserDefaults();
 
     override func viewDidLoad() {
         super.viewDidLoad()
         //self.view.backgroundColor = colorWithHexString("#0B486B")
         tipLabel.text = "$0.00"
         totalLabel.text = "$0.00"
+        tipControl.selectedSegmentIndex = userDefaults.integerForKey("tipDefault")
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
 
     @IBAction func onEditingChanged(sender: AnyObject) {
         let tipPercentages = [0.18, 0.2, 0.22]
@@ -52,5 +54,26 @@ class ViewController: UIViewController {
     
     @IBAction func onTap(sender: AnyObject) {
         view.endEditing(true);
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        print("view will appear")
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        tipControl.selectedSegmentIndex = userDefaults.integerForKey("tipDefault")
+
+        super.viewDidAppear(animated)
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        print("view will disappear")
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        print("view did disappear")
     }
 }

@@ -2,34 +2,29 @@
 //  SettingsViewController.swift
 //  tips
 //
-//  Created by eMobc SL on 01/12/15.
+//  Created by Alejandro Sanchez Acosta on 01/12/15.
 //  Copyright © 2015 Neurowork. All rights reserved.
 //
 
 import UIKit
 
 class SettingsViewController: UIViewController {
+    @IBOutlet weak var Tip: UISegmentedControl!
+    
+    var userDefaults = NSUserDefaults.standardUserDefaults()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        Tip.selectedSegmentIndex = userDefaults.integerForKey("tipDefault")
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    @IBAction func tipChanged(sender: UISegmentedControl) {
+        print(Tip.selectedSegmentIndex)
+        userDefaults.setInteger(Tip.selectedSegmentIndex, forKey:"tipDefault");
+        userDefaults.synchronize()
     }
-    */
-
 }
