@@ -15,6 +15,7 @@ class SettingsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = UIColor.blueColor()
         Tip.selectedSegmentIndex = userDefaults.integerForKey("tipDefault")
     }
 
@@ -23,7 +24,6 @@ class SettingsViewController: UIViewController {
     }
     
     @IBAction func tipChanged(sender: UISegmentedControl) {
-        print(Tip.selectedSegmentIndex)
         userDefaults.setInteger(Tip.selectedSegmentIndex, forKey:"tipDefault");
         userDefaults.synchronize()
     }
