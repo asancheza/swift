@@ -72,12 +72,13 @@ class ViewController: UIViewController {
         currencyFormatter.numberStyle = NSNumberFormatterStyle.CurrencyStyle
         currencyFormatter.locale = NSLocale.currentLocale()
         billField.placeholder = currencyFormatter.stringFromNumber(0.00)
-        let currency = currencyFormatter.stringFromNumber(0.00)
         billField.attributedPlaceholder = NSAttributedString(string: "0.00",
             attributes:[NSForegroundColorAttributeName: UIColor.whiteColor()])
 
         tipControl.selectedSegmentIndex = userDefaults.integerForKey("tipDefault")
         
+        self.billField.text = userDefaults.stringForKey("billDefault")
+        self.updateTips()
         animateTips()
         billField.becomeFirstResponder()
     }
@@ -87,11 +88,14 @@ class ViewController: UIViewController {
     }
 
     @IBAction func onEditingChanged(sender: AnyObject) {
-        updateTips()
-        animateTips();
+        self.updateTips()
+        self.animateTips();
     }
     
     func updateTips() {
+        userDefaults.setObject(billField.text, forKey:"billDefault");
+        userDefaults.synchronize()
+        
         let tipPercentages = [0.18, 0.2, 0.22]
         let tipPercentage = tipPercentages[tipControl.selectedSegmentIndex]
         
@@ -112,29 +116,37 @@ class ViewController: UIViewController {
     func animateTips() {
         if (billField.text == "" && counter) {
             UIView.animateWithDuration(0.5, animations: {
-                self.tipTitle.center.y += 450
-                self.tipControl.center.y += 450
-                self.separatorView.center.y += 450
-                self.totalTitle.center.y += 450
-                self.billField.center.y += 150
-                self.tipLabel.center.y += 450
-                self.totalLabel.center.y += 450
+                self.moveElementsDown();
             })
             counter = false
         }
         
         if (billField.text != "" && !counter) {
             UIView.animateWithDuration(0.5, animations: {
-                self.tipTitle.center.y -= 450
-                self.tipControl.center.y -= 450
-                self.separatorView.center.y -= 450
-                self.totalTitle.center.y -= 450
-                self.billField.center.y -= 150
-                self.tipLabel.center.y -= 450
-                self.totalLabel.center.y -= 450
+                self.moveElementsUp();
             })
             counter = true
         }
+    }
+    
+    func moveElementsDown() {
+        self.tipTitle.center.y += 450
+        self.tipControl.center.y += 450
+        self.separatorView.center.y += 450
+        self.totalTitle.center.y += 450
+        self.billField.center.y += 150
+        self.tipLabel.center.y += 450
+        self.totalLabel.center.y += 450
+    }
+    
+    func moveElementsUp() {
+        self.tipTitle.center.y -= 450
+        self.tipControl.center.y -= 450
+        self.separatorView.center.y -= 450
+        self.totalTitle.center.y -= 450
+        self.billField.center.y -= 150
+        self.tipLabel.center.y -= 450
+        self.totalLabel.center.y -= 450
     }
     
     @IBAction func onTap(sender: AnyObject) {
