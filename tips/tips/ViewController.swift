@@ -77,7 +77,15 @@ class ViewController: UIViewController {
 
         tipControl.selectedSegmentIndex = userDefaults.integerForKey("tipDefault")
         
-        self.billField.text = userDefaults.stringForKey("billDefault")
+        let now = NSDate()
+        
+        let defaults = NSUserDefaults.standardUserDefaults()
+        let then = defaults.objectForKey("savedTime") as? NSDate
+        
+        if (then != nil && now.timeIntervalSinceDate(then!) < 600){
+            self.billField.text = userDefaults.stringForKey("billDefault")
+        }
+        
         self.updateTips()
         animateTips()
         billField.becomeFirstResponder()
@@ -182,13 +190,16 @@ class ViewController: UIViewController {
             self.tipLabel.center.x += 250
             self.totalLabel.center.x += 250
         })
+        
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
+        NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "savedTime")
     }
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
+        NSUserDefaults.standardUserDefaults().setObject(NSDate(), forKey: "savedTime")
     }
 }
